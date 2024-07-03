@@ -1,8 +1,11 @@
 # Prova
 
-✅ Configuração Inicial Criar um projeto NestJS
-✅ Adicionar endpoints para registro e login de usuários
-Autenticação e Autorização Implementação de Segurança Adicionar um sistema de autenticação baseado em JWT (JSON Web Token) usando NestJS
+✅ Configuração Inicial Criar um projeto NestJS  
+✅ Adicionar endpoints para registro e login de usuários  
+✅ Autenticação e Autorização Implementação de Segurança Adicionar um sistema de autenticação baseado em JWT (JSON Web Token) usando NestJS  
+Implementar um sistema de autorização que permita que apenas usuários autenticados possam criar contas e registrar pagamentos  
+
+
 
 • Cadastro de Contas Criação de Contas Implementar uma API REST usando NestJS para cadastro de contas bancárias. Cada conta deve ter os seguintes campos:
 id, nome, tipo de conta (corrente, poupança), saldo inicial. 
@@ -20,7 +23,6 @@ O relatório deve incluir todas as transações (pagamentos) realizadas por uma 
 O relatório deve incluir a soma total dos pagamentos realizados no período especificado.
 
 • . 
-Implementar um sistema de autorização que permita que apenas usuários autenticados possam criar contas e registrar pagamentos. 
 
 
 • Upload de Imagem para Amazon S3 Permitir que os usuários façam upload apenas de imagem associando um pagamento. 

@@ -25,18 +25,20 @@ export class UserController {
     const { username, email, password } = body
     const error = this.validate({ username, email, password })
     if (error) return error
-    const user = this.userService.getOneUserByQuery({ email })
+    const user = await this.userService.getOneUserByQuery({ email })
     if (user) return new EmailInUseError()
     return this.userService.createUser(body);
   }
 
   @Get()
   async getAllUsers(): Promise<User[]> {
+    // token de admin
     return this.userService.getAllUsers();
   }
 
   @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<User> {
+  async getUserById(@Param('id') id: string): Promise<User | Error> {
+    // validar id recebido e se usuário é ele mesmo
     return this.userService.getUserById(id);
   }
 

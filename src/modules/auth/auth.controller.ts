@@ -6,7 +6,7 @@ import { EmailValidation } from 'src/presentation/validators/email-validation'
 import { EmailValidatorAdapter } from 'src/infra/validators/email-validator-adapter'
 import { RequiredFieldValidation } from 'src/presentation/validators/required-field-validation'
 import { JwtAuthGuard } from './jwt.auth.guard'
-import { User } from '../user/user.interface'
+import { IUser } from '../user/user.interface'
 import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error'
 
 
@@ -54,7 +54,7 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() body: { username: string, email: string, password: string }): Promise<User | Error> {
+    async register(@Body() body: { username: string, email: string, password: string }): Promise<IUser | Error> {
         const { username, email, password } = body
         const error = await this.registerValidate({ username, email, password })
         if (error) return error
@@ -65,7 +65,7 @@ export class AuthController {
 
     @Get('users')
     @UseGuards(JwtAuthGuard)
-    async getAllUsers(@Request() req): Promise<User[] | Error> {
+    async getAllUsers(@Request() req): Promise<IUser[] | Error> {
         if (!req.user.admin) {
             return new UnauthorizedError()
         }
@@ -74,7 +74,7 @@ export class AuthController {
 
     @Get('user/:id')
     @UseGuards(JwtAuthGuard)
-    async getUserById(@Param('id') id: string, @Request() req): Promise<User | Error> {
+    async getUserById(@Param('id') id: string, @Request() req): Promise<IUser | Error> {
         if (req.user._id !== id) {
             return new UnauthorizedError()
         }

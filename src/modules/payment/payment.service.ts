@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { PaymentDocument, PaymentModel } from './payment.schema'
+import { PaymentDocument, Payment } from './payment.schema'
 import { IPayment } from './payment.interface'
 import { BankAccount } from '../bank-account/bank-account.interface'
 import { BankAccountService } from '../bank-account/bank-account.service'
@@ -28,11 +28,11 @@ export interface GetReportResponse {
 @Injectable()
 export class PaymentService {
     constructor(
-        @InjectModel(PaymentModel.name) private paymentModel: Model<PaymentDocument>,
+        @InjectModel(Payment.name) private paymentModel: Model<PaymentDocument>,
         private bankAccountService: BankAccountService,
     ) { }
 
-    async createPayment(paymentParams: PaymentParams): Promise<PaymentModel> {
+    async createPayment(paymentParams: PaymentParams): Promise<Payment> {
         const { bankAccount, payment } = paymentParams
         payment.date = new Date()
         const createdPayment = new this.paymentModel(paymentParams.payment)
@@ -42,7 +42,7 @@ export class PaymentService {
         return createdPayment
     }
 
-    async findPaymentsByQuery(query): Promise<PaymentModel[]> {
+    async findPaymentsByQuery(query): Promise<Payment[]> {
         return this.paymentModel.find(query).exec();
     }
 

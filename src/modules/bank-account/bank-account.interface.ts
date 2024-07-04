@@ -1,4 +1,4 @@
-export interface BankAccount {
+export interface IBankAccount {
     _id?: string;
     name: string;
     type: BankAccountType;

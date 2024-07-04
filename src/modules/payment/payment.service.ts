@@ -3,22 +3,22 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { PaymentDocument, Payment } from './payment.schema'
 import { IPayment } from './payment.interface'
-import { BankAccount } from '../bank-account/bank-account.interface'
+import { IBankAccount } from '../bank-account/bank-account.interface'
 import { BankAccountService } from '../bank-account/bank-account.service'
 
 interface PaymentParams {
-    bankAccount: BankAccount,
+    bankAccount: IBankAccount,
     payment: IPayment
 }
 
 interface GetReportParams {
-    bankAccount: BankAccount,
+    bankAccount: IBankAccount,
     startDate?: Date,
     endDate?: Date
 }
 
 export interface GetReportResponse {
-    bankAccount: BankAccount,
+    bankAccount: IBankAccount,
     totalPayments: number
     payments: IPayment[]
     startDate?: Date,

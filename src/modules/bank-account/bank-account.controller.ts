@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Request, UseGuards } from '@nestjs/common';
 import { BankAccountService } from './bank-account.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
-import { BankAccount, BankAccountType } from './bank-account.interface';
+import { IBankAccount, BankAccountType } from './bank-account.interface';
 import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error';
 
 @Controller('bank-account')
@@ -10,14 +10,14 @@ export class BankAccountController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createBankAccount(@Request() req, @Body() body: { name: string, type: BankAccountType, initialBalance: number }): Promise<BankAccount> {
+    async createBankAccount(@Request() req, @Body() body: { name: string, type: BankAccountType, initialBalance: number }): Promise<IBankAccount> {
         const { name, type, initialBalance } = body
         return this.bankAccountService.createBankAccount({ name: name, type, initialBalance, userId: req.user._id });
     }
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getAllBankAccounts(@Request() req): Promise<BankAccount[] | Error> {
+    async getAllBankAccounts(@Request() req): Promise<IBankAccount[] | Error> {
         if (!req.user.admin) {
             return new UnauthorizedError()
         }
@@ -26,8 +26,8 @@ export class BankAccountController {
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getBankAccountById(@Request() req, @Param('id') id: string): Promise<BankAccount | Error> {
-        const bankAccount: BankAccount = await this.bankAccountService.getBankAccountById(id)
+    async getBankAccountById(@Request() req, @Param('id') id: string): Promise<IBankAccount | Error> {
+        const bankAccount: IBankAccount = await this.bankAccountService.getBankAccountById(id)
         if (bankAccount.userId != req.user._id) return new UnauthorizedError()
         return this.bankAccountService.getBankAccountById(id);
     }

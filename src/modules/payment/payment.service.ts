@@ -11,6 +11,20 @@ interface PaymentParams {
     payment: Payment
 }
 
+interface GetReportParams {
+    bankAccount: BankAccount,
+    startDate?: Date,
+    endDate?: Date
+}
+
+export interface GetReportResponse {
+    bankAccount: BankAccount,
+    totalPayments: number
+    payments: Payment[]
+    startDate?: Date,
+    endDate?: Date,
+}
+
 @Injectable()
 export class PaymentService {
     constructor(
@@ -27,5 +41,30 @@ export class PaymentService {
         this.bankAccountService.updateBankAccount(bankAccount)
         return createdPayment
     }
+
+    async findPaymentsByQuery(query): Promise<PaymentModel[]> {
+        return this.paymentModel.find(query).exec();
+    }
+
+    async getReport(getReportParams: GetReportParams): Promise<GetReportResponse> {
+        const payments: Payment[] = await this.findPaymentsByQuery(
+            {
+                bankAccountId: getReportParams.bankAccount._id,
+                date: { $gte: getReportParams.startDate },
+            })
+        let totalPayments = 0
+        for (const payment of payments) {
+            totalPayments += payment.amount;
+        }
+        return {
+            bankAccount: getReportParams.bankAccount,
+            totalPayments: -totalPayments,
+            payments,
+            startDate: getReportParams.startDate,
+            endDate: getReportParams.endDate,
+        }
+    }
+
+
 
 }

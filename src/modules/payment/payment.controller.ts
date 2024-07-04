@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
-import { PaymentService } from './payment.service';
+import { Controller, Get, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { GetReportResponse, PaymentService } from './payment.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { BankAccountService } from '../bank-account/bank-account.service';
 import { BankAccount } from '../bank-account/bank-account.interface';
@@ -22,6 +22,17 @@ export class PaymentController {
         if (req.user._id != bankAccount.userId) return new InvalidBankAccount()
         if (bankAccount.initialBalance < amount) return new InsufficientBalance()
         return this.paymentService.createPayment({ payment: body, bankAccount });
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('report')
+    async getReport(@Request() req, @Body() body: { bankAccountId: string, startDate: Date, endDate: Date }): Promise<GetReportResponse | Error> {
+        const { bankAccountId, startDate, endDate } = body
+        const bankAccount: BankAccount = await this.bankAccountService.getBankAccountById(bankAccountId)
+        if (req.user.admin || req.user._id === bankAccount.userId) {
+            return this.paymentService.getReport({ bankAccount, startDate, endDate });
+        }
+        return new InvalidBankAccount();
     }
 
 }

@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BankAccountType } from './bank-account.interface';
 
-export type BankAccountDocument = BankAccountModel & Document;
+export type BankAccountDocument = BankAccount & Document;
 
 @Schema()
-export class BankAccountModel {
+export class BankAccount {
   @Prop({ required: true })
   name: string;
 
@@ -19,4 +19,4 @@ export class BankAccountModel {
   userId: string;
 }
 
-export const BankAccountSchema = SchemaFactory.createForClass(BankAccountModel);
+export const BankAccountSchema = SchemaFactory.createForClass(BankAccount);

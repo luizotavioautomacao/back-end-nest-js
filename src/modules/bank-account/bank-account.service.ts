@@ -24,8 +24,8 @@ export class BankAccountService {
         return this.accountModel.findById(id).exec();
     }
 
-    async updateBankAccount(id: string, name: string, accountType: string, initialBalance: number): Promise<BankAccountModel> {
-        return this.accountModel.findByIdAndUpdate(id, { name, accountType, initialBalance }, { new: true }).exec();
+    async updateBankAccount(bankAccount: BankAccount): Promise<BankAccountModel> {
+        return this.accountModel.findByIdAndUpdate(bankAccount._id, bankAccount, { new: true }).exec();
     }
 
     async deleteBankAccount(id: string): Promise<BankAccountModel> {

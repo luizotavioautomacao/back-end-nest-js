@@ -1,4 +1,4 @@
-export interface Payment {
+export interface IPayment {
   _id?: string;
   bankAccountId: string;
   amount: number;

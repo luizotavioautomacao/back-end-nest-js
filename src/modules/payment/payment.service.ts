@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { PaymentDocument, PaymentModel } from './payment.schema'
-import { Payment } from './payment.interface'
+import { IPayment } from './payment.interface'
 import { BankAccount } from '../bank-account/bank-account.interface'
 import { BankAccountService } from '../bank-account/bank-account.service'
 
 interface PaymentParams {
     bankAccount: BankAccount,
-    payment: Payment
+    payment: IPayment
 }
 
 interface GetReportParams {
@@ -20,7 +20,7 @@ interface GetReportParams {
 export interface GetReportResponse {
     bankAccount: BankAccount,
     totalPayments: number
-    payments: Payment[]
+    payments: IPayment[]
     startDate?: Date,
     endDate?: Date,
 }
@@ -47,7 +47,7 @@ export class PaymentService {
     }
 
     async getReport(getReportParams: GetReportParams): Promise<GetReportResponse> {
-        const payments: Payment[] = await this.findPaymentsByQuery(
+        const payments: IPayment[] = await this.findPaymentsByQuery(
             {
                 bankAccountId: getReportParams.bankAccount._id,
                 date: { $gte: getReportParams.startDate },

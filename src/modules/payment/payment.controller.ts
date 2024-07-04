@@ -3,7 +3,7 @@ import { GetReportResponse, PaymentService } from './payment.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { BankAccountService } from '../bank-account/bank-account.service';
 import { BankAccount } from '../bank-account/bank-account.interface';
-import { Payment } from './payment.interface';
+import { IPayment } from './payment.interface';
 import { InvalidBankAccount } from 'src/presentation/errors/invalid-bank-account';
 import { InsufficientBalance } from 'src/presentation/errors/insufficient-balance';
 
@@ -16,7 +16,7 @@ export class PaymentController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createPayment(@Request() req, @Body() body: { bankAccountId: string, amount: number, date: Date, description: string }): Promise<Payment | Error> {
+    async createPayment(@Request() req, @Body() body: { bankAccountId: string, amount: number, date: Date, description: string }): Promise<IPayment | Error> {
         const { bankAccountId, amount, date, description } = body
         const bankAccount: BankAccount = await this.bankAccountService.getBankAccountById(bankAccountId)
         if (req.user._id != bankAccount.userId) return new InvalidBankAccount()

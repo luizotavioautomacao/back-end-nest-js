@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Request, UseGuards } from '@nestjs/common';
 import { BankAccountService } from './bank-account.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
-import { UnauthorizedError } from 'src/presentation/validators/unauthorized-error';
 import { BankAccount, BankAccountType } from './bank-account.interface';
+import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error';
 
 @Controller('bank-account')
 export class BankAccountController {

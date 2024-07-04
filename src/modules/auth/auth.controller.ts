@@ -7,7 +7,8 @@ import { EmailValidatorAdapter } from 'src/infra/validators/email-validator-adap
 import { RequiredFieldValidation } from 'src/presentation/validators/required-field-validation'
 import { JwtAuthGuard } from './jwt.auth.guard'
 import { User } from '../user/user.interface'
-import { UnauthorizedError } from 'src/presentation/validators/unauthorized-error'
+import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error'
+
 
 const makeRequiredValidation = (input, field) => {
     const requiredFieldValidation = new RequiredFieldValidation(field)

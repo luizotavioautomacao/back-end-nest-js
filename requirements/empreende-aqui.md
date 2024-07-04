@@ -1,4 +1,4 @@
-# Prova
+# Prova 
 
 ✅ - Configuração Inicial Criar um projeto NestJS  
 ✅ - Adicionar endpoints para registro e login de usuários  
@@ -13,8 +13,8 @@
 ✅ - Validar que a conta associada ao pagamento existe e que o saldo da conta é suficiente para cobrir o pagamento  
 ✅ - Atualizar o saldo da conta após o pagamento ser registrado  
 ✅ - Armazenar os pagamentos na base de dados  
-- Relatório de Transações Geração de Relatórios Implementar uma API REST para geração de um relatório de transações por conta  
-- O relatório deve incluir todas as transações (pagamentos) realizadas por uma conta específica em um intervalo de datas fornecido pelo usuário  
-- O relatório deve incluir a soma total dos pagamentos realizados no período especificado  
+✅ - Relatório de Transações Geração de Relatórios Implementar uma API REST para geração de um relatório de transações por conta  
+✅ - O relatório deve incluir todas as transações (pagamentos) realizadas por uma conta específica em um intervalo de datas fornecido pelo usuário  
+✅ - O relatório deve incluir a soma total dos pagamentos realizados no período especificado  
 - Upload de Imagem para Amazon S3 Permitir que os usuários façam upload apenas de imagem associando um pagamento. 
 - Armazenar a URL da imagem no banco de dados  

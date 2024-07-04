@@ -1,13 +1,13 @@
-import { Controller, Get, Post, Param, Request, Body, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { EmailInUseError } from 'src/presentation/errors/email-in-use-error';
-import { EmailValidation } from 'src/presentation/validators/email-validation';
-import { EmailValidatorAdapter } from 'src/infra/validators/email-validator-adapter';
-import { RequiredFieldValidation } from 'src/presentation/validators/required-field-validation';
-import { JwtAuthGuard } from './jwt.auth.guard';
-import { User } from '../user/user.interface';
-import { UnauthorizedError } from 'src/presentation/validators/unauthorized-error';
+import { Controller, Get, Post, Param, Request, Body, UseGuards } from '@nestjs/common'
+import { AuthService } from './auth.service'
+import { UserService } from '../user/user.service'
+import { EmailInUseError } from 'src/presentation/errors/email-in-use-error'
+import { EmailValidation } from 'src/presentation/validators/email-validation'
+import { EmailValidatorAdapter } from 'src/infra/validators/email-validator-adapter'
+import { RequiredFieldValidation } from 'src/presentation/validators/required-field-validation'
+import { JwtAuthGuard } from './jwt.auth.guard'
+import { User } from '../user/user.interface'
+import { UnauthorizedError } from 'src/presentation/validators/unauthorized-error'
 
 const makeRequiredValidation = (input, field) => {
     const requiredFieldValidation = new RequiredFieldValidation(field)
@@ -31,7 +31,7 @@ export class AuthController {
             const error = makeRequiredValidation(input, field)
             if (error) return error
         }
-        return makeEmailValidation(input)
+        makeEmailValidation(input)
     }
 
     async loginValidate(input: any): Promise<Error> {
@@ -39,27 +39,27 @@ export class AuthController {
             const error = makeRequiredValidation(input, field)
             if (error) return error
         }
-        return makeEmailValidation(input)
+        makeEmailValidation(input)
     }
 
     @Post('login')
-    async login(@Body() body: { email: string; password: string }) {
+    async login(@Body() body: { email: string, password: string }) {
         const { email, password } = body
-        const error = this.loginValidate({ email, password })
+        const error = await this.loginValidate({ email, password })
         if (error) return error
-        const user = await this.authService.validateUser(body);
-        if (!user) return { error: 'Credenciais inválidas' };
-        return this.authService.login(user);
+        const user = await this.authService.validateUser(body)
+        if (!user) return new UnauthorizedError()
+        return this.authService.login(user)
     }
 
     @Post('register')
-    async register(@Body() body: { username: string; email: string; password: string }) {
+    async register(@Body() body: { username: string, email: string, password: string }): Promise<User | Error> {
         const { username, email, password } = body
-        const error = this.registerValidate({ username, email, password })
+        const error = await this.registerValidate({ username, email, password })
         if (error) return error
         const user = await this.userService.getOneUserByQuery({ email })
         if (user) return new EmailInUseError()
-        return this.userService.createUser(body);
+        return this.userService.createUser(body)
     }
 
     @Get('users')
@@ -68,7 +68,7 @@ export class AuthController {
         if (!req.user.admin) {
             return new UnauthorizedError()
         }
-        return this.userService.getAllUsers();
+        return this.userService.getAllUsers()
     }
 
     @Get('user/:id')
@@ -77,6 +77,6 @@ export class AuthController {
         if (req.user._id !== id) {
             return new UnauthorizedError()
         }
-        return this.userService.getUserById(id);
+        return this.userService.getUserById(id)
     }
 }

@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { BankAccountModule } from './modules/bank-account/bank-account.module';
 
 
 @Module({
@@ -11,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
     MongooseModule.forRoot('mongodb://localhost/nest'),
     UserModule,
     AuthModule,
+    BankAccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],

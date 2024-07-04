@@ -10,7 +10,9 @@ import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot('mongodb://mongo/nest'), 
+    // rodar pelo host => mongodb://localhost/nest 
+    // rodar pelo docker => mongodb://mongo/nest 
     UserModule,
     AuthModule,
     BankAccountModule,

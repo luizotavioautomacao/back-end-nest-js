@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongodb
+    image: mongo:5
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+  api:
+    container_name: nest
+    image: node:18
+    working_dir: /usr/src/back-end-nest-js
+    restart: always
+    command: bash -c "npm install -g @nestjs/cli && npm install --only=prod && npm run start"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/nest
+    volumes:
+      - .:/usr/src/back-end-nest-js
+      - ./package.json:/usr/src/back-end-nest-js/package.json
+    ports:
+      - "3000:3000" # server
+      - "9222:9222" # debug
+    links:
+      - mongo

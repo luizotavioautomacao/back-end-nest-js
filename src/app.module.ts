@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BankAccountModule } from './modules/bank-account/bank-account.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @Module({
@@ -13,6 +14,7 @@ import { BankAccountModule } from './modules/bank-account/bank-account.module';
     UserModule,
     AuthModule,
     BankAccountModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

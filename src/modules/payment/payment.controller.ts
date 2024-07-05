@@ -9,7 +9,9 @@ import { InsufficientBalance } from 'src/presentation/errors/insufficient-balanc
 import { MinioS3Service } from '../minio-s3/minio-s3.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('payment')
 @Controller('payment')
 export class PaymentController {
     constructor(

@@ -8,6 +8,7 @@ import { RequiredFieldValidation } from 'src/presentation/validators/required-fi
 import { JwtAuthGuard } from './jwt.auth.guard'
 import { IUser } from '../user/user.interface'
 import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error'
+import { ApiTags } from '@nestjs/swagger'
 
 
 const makeRequiredValidation = (input, field) => {
@@ -21,6 +22,7 @@ const makeEmailValidation = (input) => {
     return emailValidation.validate(input)
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(

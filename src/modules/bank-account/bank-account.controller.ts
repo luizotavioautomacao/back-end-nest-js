@@ -3,7 +3,9 @@ import { BankAccountService } from './bank-account.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { IBankAccount, BankAccountType } from './bank-account.interface';
 import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('bank-account')
 @Controller('bank-account')
 export class BankAccountController {
     constructor(private readonly bankAccountService: BankAccountService) { }

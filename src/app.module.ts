@@ -6,6 +6,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BankAccountModule } from './modules/bank-account/bank-account.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { MinioS3Module } from './modules/minio-s3/minio-s3.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     AuthModule,
     BankAccountModule,
     PaymentModule,
+    MinioS3Module,
   ],
   controllers: [AppController],
   providers: [AppService],

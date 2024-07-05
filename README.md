@@ -2,6 +2,8 @@
 > ## APIs construída de acordo com prova:
 
 1. [Prova](./requirements/empreende-aqui.md)  
+⚠️ Não foi possível usar Amazon S3 por erro da plataforma. Prints na pasta [requirements](./requirements/)  
+🚀 Para rodar o projeto ➡️ `make up`  
    
 ##
 <p align="center">

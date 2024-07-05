@@ -16,5 +16,10 @@
 ✅ - Relatório de Transações Geração de Relatórios Implementar uma API REST para geração de um relatório de transações por conta  
 ✅ - O relatório deve incluir todas as transações (pagamentos) realizadas por uma conta específica em um intervalo de datas fornecido pelo usuário  
 ✅ - O relatório deve incluir a soma total dos pagamentos realizados no período especificado  
-- Upload de Imagem para Amazon S3 Permitir que os usuários façam upload apenas de imagem associando um pagamento. 
-- Armazenar a URL da imagem no banco de dados  
+❌ - Upload de Imagem para ~~Amazon S3~~ [minio](https://min.io)  
+✅ - Como não foi possível usar o Amazon S3 por erro da plataforma, foi usado o [minio](https://min.io) que é compatível com Amazon S3  
+⚠️ - [bug na plataforma da amazon para completar login](amazon-s3-failed.png)  
+⚠️ - [sugestões não funcionou](./amazon-s3-support.png)  
+⚠️ - [não foi possível criar um buckets](./amazon-s3-buckets.png)  
+❌ - Permitir que os usuários façam upload apenas de imagem associando um pagamento  
+❌ - Armazenar a URL da imagem no banco de dados  

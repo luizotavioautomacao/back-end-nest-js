@@ -13,7 +13,7 @@ services:
     image: node:18
     working_dir: /usr/src/back-end-nest-js
     restart: always
-    command: bash -c "npm install -g @nestjs/cli && npm install --only=prod && npm run start"
+    command: bash -c "npm install -g @nestjs/cli && npm install --only=prod && npm run start:dev"
     environment:
       - MONGO_URL=mongodb://mongo:27017/nest
     volumes:

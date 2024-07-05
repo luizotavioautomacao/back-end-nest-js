@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Request, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { GetReportResponse, PaymentService } from './payment.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { BankAccountService } from '../bank-account/bank-account.service';
@@ -6,12 +6,16 @@ import { IBankAccount } from '../bank-account/bank-account.interface';
 import { IPayment } from './payment.interface';
 import { InvalidBankAccount } from 'src/presentation/errors/invalid-bank-account';
 import { InsufficientBalance } from 'src/presentation/errors/insufficient-balance';
+import { MinioS3Service } from '../minio-s3/minio-s3.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('payment')
 export class PaymentController {
     constructor(
         private readonly paymentService: PaymentService,
-        private readonly bankAccountService: BankAccountService
+        private readonly bankAccountService: BankAccountService,
+        private readonly minioS3Service: MinioS3Service,
     ) { }
 
     @UseGuards(JwtAuthGuard)
@@ -26,13 +30,20 @@ export class PaymentController {
 
     @UseGuards(JwtAuthGuard)
     @Post('report')
-    async getReport(@Request() req, @Body() body: { bankAccountId: string, startDate: Date, endDate: Date }): Promise<GetReportResponse | Error> {
+    async getPaymentsReport(@Request() req, @Body() body: { bankAccountId: string, startDate: Date, endDate: Date }): Promise<GetReportResponse | Error> {
         const { bankAccountId, startDate, endDate } = body
         const bankAccount: IBankAccount = await this.bankAccountService.getBankAccountById(bankAccountId)
         if (req.user.admin || req.user._id === bankAccount.userId) {
-            return this.paymentService.getReport({ bankAccount, startDate, endDate });
+            return this.paymentService.getPaymentsReport({ bankAccount, startDate, endDate });
         }
         return new InvalidBankAccount();
     }
 
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Body('paymentId') paymentId: string) {
+        const imageUrl = await this.minioS3Service.uploadFile(file);
+        await this.paymentService.addImageToPayment({ paymentId, imageUrl });
+        return { imageUrl };
+    }
 }

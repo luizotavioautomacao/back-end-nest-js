@@ -16,6 +16,10 @@ export class Payment {
 
   @Prop()
   description: string;
+
+  @Prop()
+  imageUrl: string;
+
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);

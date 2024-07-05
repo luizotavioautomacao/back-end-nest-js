@@ -25,6 +25,11 @@ export interface GetReportResponse {
     endDate?: Date,
 }
 
+interface AddImageToPaymentParams {
+    paymentId: string,
+    imageUrl: string
+}
+
 @Injectable()
 export class PaymentService {
     constructor(
@@ -42,12 +47,12 @@ export class PaymentService {
         return createdPayment
     }
 
-    async findPaymentsByQuery(query): Promise<Payment[]> {
+    private async findPaymentsByQuery(query): Promise<Payment[]> {
         return this.paymentModel.find(query).exec();
     }
 
-    async getReport(getReportParams: GetReportParams): Promise<GetReportResponse> {
-        const payments: IPayment[] = await this.findPaymentsByQuery(
+    async getPaymentsReport(getReportParams: GetReportParams): Promise<GetReportResponse> {
+        const payments: Payment[] = await this.findPaymentsByQuery(
             {
                 bankAccountId: getReportParams.bankAccount._id,
                 date: { $gte: getReportParams.startDate },
@@ -65,6 +70,9 @@ export class PaymentService {
         }
     }
 
-
+    async addImageToPayment(addImageToPaymentParams: AddImageToPaymentParams): Promise<Payment> {
+        const payment = await this.paymentModel.findByIdAndUpdate(addImageToPaymentParams.paymentId, { imageUrl: addImageToPaymentParams.imageUrl }, { new: true }).exec();
+        return payment
+    }
 
 }

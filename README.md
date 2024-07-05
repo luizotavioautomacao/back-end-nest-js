@@ -3,8 +3,8 @@
 
 1. [Prova](./requirements/empreende-aqui.md)  
 ⚠️ Não foi possível usar Amazon S3 por erro da plataforma. Prints na pasta [requirements](./requirements/)  
-🚀 Para rodar o projeto ➡️ `make up`  
-   
+🚀 Para rodar o projeto é necessário add .env ➡️ `make up`  
+
 ##
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>

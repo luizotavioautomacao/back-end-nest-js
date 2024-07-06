@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
-import * as multerS3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 import { v4 as uuid } from 'uuid';
 import { MinioS3Service } from './minio-s3.service';
+const multerS3 = require('multer-s3');
 
 @Module({
   imports: [

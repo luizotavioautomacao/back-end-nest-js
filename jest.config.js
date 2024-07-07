@@ -1,5 +1,5 @@
 module.exports = {
-    roots: ['<rootDir>/src/infra'],
+    roots: ['<rootDir>/src'],
     collectCoverageFrom: [
         '<rootDir>/src/**/*.ts', // qualquer arquivo dentro de src vai ter cobertura de testes
         // '!<rootDir>/src/main/**'

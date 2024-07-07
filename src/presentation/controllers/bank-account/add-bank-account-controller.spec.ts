@@ -13,18 +13,35 @@ const makeFakeRequest = (): IHttpResponse => {
     }
 }
 
-class ValidationStub implements IValidation {
-    validate(input: any): Error { 
-        return null
+interface SutTypes {
+    sut: AddBankController,
+    validationStub: IValidation
+}
+
+const makeSut = (): SutTypes => {
+    const validationStub = makeValidation()
+    const sut = new AddBankController(validationStub)
+    return {
+        sut,
+        validationStub
     }
 }
+
+const makeValidation = () => {
+    class ValidationStub implements IValidation {
+        validate(input: any): Error {
+            return null
+        }
+    }
+    return new ValidationStub()
+}
+
 
 describe('AddBankAccount Controller', () => {
 
     test('Should call IValidation with correct values', async () => {
-        const validationStub = new ValidationStub()
+        const { sut, validationStub } = makeSut()
         const validadeSpy = jest.spyOn(validationStub, 'validate')
-        const sut = new AddBankController(validationStub)
         const httpRequest = makeFakeRequest()
         await sut.handle(httpRequest)
         expect(validadeSpy).toHaveBeenCalledWith(httpRequest.body)

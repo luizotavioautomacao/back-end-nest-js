@@ -9,7 +9,7 @@ import { JwtAuthGuard } from './jwt.auth.guard'
 import { IUser } from '../user/user.interface'
 import { UnauthorizedError } from 'src/presentation/errors/unauthorized-error'
 import { ApiTags } from '@nestjs/swagger'
-
+import { UserNotFound } from 'src/presentation/errors/user-not-found-error'
 
 const makeRequiredValidation = (input, field) => {
     const requiredFieldValidation = new RequiredFieldValidation(field)
@@ -50,8 +50,10 @@ export class AuthController {
         const { email, password } = body
         const error = await this.loginValidate({ email, password })
         if (error) return error
-        const user = await this.authService.validateUser(body)
-        if (!user) return new UnauthorizedError()
+        const user = await this.authService.isThereUser(body)
+        if (!user) return new UserNotFound()
+        const authorized = this.authService.comparePassword({ password, hash: user.password })
+        if (!authorized) return new UnauthorizedError()
         return this.authService.login(user)
     }
 
@@ -60,7 +62,7 @@ export class AuthController {
         const { username, email, password } = body
         const error = await this.registerValidate({ username, email, password })
         if (error) return error
-        const user = await this.userService.getOneUserByQuery({ email })
+        const user = await this.userService.findOneUserByQuery({ email })
         if (user) return new EmailInUseError()
         return this.userService.createUser(body)
     }

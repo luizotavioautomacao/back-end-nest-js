@@ -37,7 +37,7 @@
 ✅ - Validações em auth  
 ❌ - Validações em bankAccount  
 ❌ - Validações em payment  
-❌ - Encriptografar senha  
+✅ - Encriptografar senha  
 ✅ - Implementar testes unitários para email-validator-adapter  
 ✅ - Implementar camada infra para email-validator-adapter  
 ✅ - Implementar camada presentatin para erros e validators  

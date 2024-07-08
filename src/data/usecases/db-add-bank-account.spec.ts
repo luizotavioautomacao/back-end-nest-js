@@ -1,3 +1,4 @@
+import { serverError } from "src/presentation/helpers/http-helper"
 import { mockAddBankAccount } from "../../domain/usecases/mock-add-bank-account"
 import { IAddBankAccountRepository } from "../protocols/db/bank-account/add-bank-account-repository"
 import { DbAddBankAccount } from "./db-add-bank-account"
@@ -26,7 +27,6 @@ const makeAddBankAccountRepository = (): IAddBankAccountRepository => {
   return new AddBankAccountRepositoryStub()
 }
 
-
 describe('DbAddBankAccount Usecase', () => {
 
   test('Should call AddBankAccountRepository with correct values', () => {
@@ -34,6 +34,13 @@ describe('DbAddBankAccount Usecase', () => {
     const addSpy = jest.spyOn(addBankAccountRepositoryStub, 'add')
     sut.add(mockAddBankAccount)
     expect(addSpy).toHaveBeenCalledWith(mockAddBankAccount)
+  })
+
+  test('Should throw if AddBankAccountRepository throws', async () => {
+    const { sut, addBankAccountRepositoryStub } = makeSut()
+    jest.spyOn(addBankAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(Error())))
+    const promise = sut.add(mockAddBankAccount)
+    expect(promise).rejects.toThrow()
   })
 
 })

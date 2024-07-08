@@ -81,4 +81,11 @@ describe('AddBankAccount Controller', () => {
         expect(httpResponse).toEqual(serverError(new Error()))
     })
 
+    test('Should return 204 on success', async () => {
+        const { sut } = makeSut()
+        const httpRequest = makeFakeRequest()
+        const httpResponse = await sut.handle(httpRequest)
+        expect(httpResponse).toEqual(noContent())
+    })
+
 })

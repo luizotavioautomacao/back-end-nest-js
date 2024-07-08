@@ -1,17 +1,14 @@
 import { IHttpResponse } from "src/presentation/protocols/http"
 import { AddBankController } from "./add-bank-account-controller"
 import { IValidation } from "src/presentation/protocols/validation"
-import { badRequest } from "../../helpers/http-helper"
+import { badRequest, noContent, serverError } from "../../helpers/http-helper"
 import { AddBankAccountModel, IAddBankAccount } from "src/domain/usecases/add-bank-account"
+import { mockAddBankAccount } from "../../../domain/usecases/mock-add-bank-account"
 
 const makeFakeRequest = (): IHttpResponse => {
     return {
         statusCode: 200,
-        body: {
-            name: "Luiz Otávio",
-            type: "corrente",
-            initialBalance: 0,
-        }
+        body: mockAddBankAccount
     }
 }
 
@@ -74,6 +71,14 @@ describe('AddBankAccount Controller', () => {
         const httpRequest = makeFakeRequest()
         await sut.handle(httpRequest)
         expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    })
+
+    test('Should return 500 if AddBankAccount throws', async () => {
+        const { sut, addBankAccountStub } = makeSut()
+        jest.spyOn(addBankAccountStub, 'add').mockRejectedValueOnce(new Error())
+        const httpRequest = makeFakeRequest()
+        const httpResponse = await sut.handle(httpRequest)
+        expect(httpResponse).toEqual(serverError(new Error()))
     })
 
 })

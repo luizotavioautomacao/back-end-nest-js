@@ -2,6 +2,7 @@ import { IHttpResponse } from "src/presentation/protocols/http"
 import { AddBankController } from "./add-bank-account-controller"
 import { IValidation } from "src/presentation/protocols/validation"
 import { badRequest } from "../../helpers/http-helper"
+import { AddBankAccountModel, IAddBankAccount } from "src/domain/usecases/add-bank-account"
 
 const makeFakeRequest = (): IHttpResponse => {
     return {
@@ -16,15 +17,18 @@ const makeFakeRequest = (): IHttpResponse => {
 
 interface SutTypes {
     sut: AddBankController,
-    validationStub: IValidation
+    validationStub: IValidation,
+    addBankAccountStub: IAddBankAccount
 }
 
 const makeSut = (): SutTypes => {
     const validationStub = makeValidation()
-    const sut = new AddBankController(validationStub)
+    const addBankAccountStub = makeBankAccount()
+    const sut = new AddBankController(validationStub, addBankAccountStub)
     return {
         sut,
-        validationStub
+        validationStub,
+        addBankAccountStub
     }
 }
 
@@ -35,6 +39,15 @@ const makeValidation = () => {
         }
     }
     return new ValidationStub()
+}
+
+const makeBankAccount = () => {
+    class AddBankAccountStub implements IAddBankAccount {
+        async add(date: AddBankAccountModel): Promise<void> {
+            return new Promise(resolve => resolve())
+        }
+    }
+    return new AddBankAccountStub()
 }
 
 describe('AddBankAccount Controller', () => {
@@ -53,6 +66,14 @@ describe('AddBankAccount Controller', () => {
         const httpRequest = makeFakeRequest()
         const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse).toEqual(badRequest(new Error()))
+    })
+
+    test('Should call AddBankAccount with correct values', async () => {
+        const { sut, addBankAccountStub } = makeSut()
+        const addSpy = jest.spyOn(addBankAccountStub, 'add')
+        const httpRequest = makeFakeRequest()
+        await sut.handle(httpRequest)
+        expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
     })
 
 })

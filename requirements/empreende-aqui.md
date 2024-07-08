@@ -38,8 +38,13 @@
 ❌ - Validações em bankAccount  
 ❌ - Validações em payment  
 ✅ - Encriptografar senha  
-✅ - Implementar testes unitários para email-validator-adapter  
-✅ - Implementar camada infra para email-validator-adapter  
-✅ - Implementar camada presentatin para erros e validators  
-❌ - Implementar testes unitários  
-❌ - Implementar arquitetura solid  (domain, data, infra, presentation, main)  
+✅ - Implementar camada infra para email-validator-adapter (solid)  
+✅ - Implementar testes unitários para email-validator-adapter na camada infra (solid)  
+✅ - Implementar camada domain para AddBankAccount (solid)  
+✅ - Implementar camada presentatin para erros, validators e AddBankAccountController (solid)  
+✅ - Implementar testes unitários para AddBankAccountController na camada presentation (solid)  
+✅ - Implementar camada data para AddBankAccount (solid)  
+✅ - Implementar testes unitários para AddBankAccount na camada data (solid)  
+❌ - Implementar camada infra para AddBankAccount (solid)  
+❌ - Implementar testes unitários para AddBankAccount na camada infra (solid)  
+❌ - Implementar camada acoplada main (solid)  

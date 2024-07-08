@@ -1,12 +1,7 @@
 export interface AddBankAccountModel {
     name: string,
-    type: BankAccountType,
+    type: string,
     initialBalance: number
-}
-
-export enum BankAccountType {
-    current = 'corrente',
-    saving = 'poupança',
 }
 
 export interface IAddBankAccount {

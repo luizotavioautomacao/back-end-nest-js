@@ -17,7 +17,7 @@ export class AddBankController implements IController {
             if (error) return badRequest(error)
             const { name, type, initialBalance } = httpRequest.body
             await this.addBankAccount.add({ name, type, initialBalance })
-            return null
+            return noContent()
         } catch (error) {
             return serverError(error)
         }
